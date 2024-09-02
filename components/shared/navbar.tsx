@@ -13,12 +13,10 @@ export default function Navbar() {
       </div>
       <div className="flex items-center gap-3">
         <Button>Sign in</Button>
-
         {/* <Link href="/dashboard">
             <UserAvatar />
-          </Link> */}
+        </Link> */}
         {/* )} */}
-
         <ModeToggle />
       </div>
     </div>
