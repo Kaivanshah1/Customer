@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { prisma } from "@/prisma/prisma";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,6 +13,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TSignUpSchema, signUpSchema } from "@/lib/schema";
+import register from "@/actions/user";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function SignIn() {
   const form = useForm<TSignUpSchema>({
@@ -21,12 +22,11 @@ export default function SignIn() {
     defaultValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
   function onSubmit(values: TSignUpSchema) {
-    alert("your form is submitted");
+    register(values);
     console.log(values);
   }
 
@@ -64,19 +64,6 @@ export default function SignIn() {
             )}
           />
 
-          <FormField
-            name="confim password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormDescription>Enter your confirm password</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <Button type="submit" className="w-full">
             Submit
           </Button>
