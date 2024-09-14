@@ -1,5 +1,5 @@
 "use server";
-
+import { signOut } from "@/auth";
 import { signUpSchema, TSignUpSchema } from "@/lib/schema";
 import { prisma } from "@/prisma/prisma";
 import { redirect } from "next/navigation";
@@ -27,3 +27,7 @@ const register = async (formData: TSignUpSchema) => {
 };
 
 export default register;
+
+export async function handleSignOut() {
+  await signOut();
+}
