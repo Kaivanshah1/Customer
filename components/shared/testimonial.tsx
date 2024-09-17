@@ -15,7 +15,7 @@ export default function Testimonial() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default"> + Create</Button>
+        <Button variant="default"> + Create Testimonial</Button>
       </DialogTrigger>
       <DialogContent className="max-w-6xl">
         <DialogHeader>
