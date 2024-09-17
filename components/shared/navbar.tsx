@@ -7,6 +7,7 @@ import { handleSignOut } from "@/actions/user";
 
 export default async function Navbar() {
   const session = await auth();
+  console.log(session);
   return (
     <div className="flex p-5 items-center justify-between h-20">
       <div>

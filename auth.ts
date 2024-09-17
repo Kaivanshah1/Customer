@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import { signUpSchema } from "./lib/schema";
 import Credentials from "next-auth/providers/credentials";
 import { ZodError } from "zod";
+import { prisma } from "./prisma/prisma";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -18,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           placeholder: "Password",
         },
       },
-      authorize: async (credentials) => {
+      async authorize(credentials) {
         try {
           let user = null;
 
@@ -28,7 +29,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           // logic to salt and hash password
           // const pwHash = saltAndHashPassword(password);
-
           // logic to verify if the user exists
           // user = await getUserFromDb(email, pwHash);
 
@@ -36,8 +36,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw new Error("User not found.");
           }
 
-          // return JSON object with the user data
           return user;
+          // return JSON object with the user data
         } catch (error) {
           if (error instanceof ZodError) {
             // Return `null` to indicate that the credentials are invalid
@@ -61,6 +61,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       return !!auth;
+    },
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
     },
   },
   pages: {
